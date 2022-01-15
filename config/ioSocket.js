@@ -1,0 +1,6 @@
+exports.CONNECT = 'connection'
+exports.DISCONNECT = 'disconnection'
+exports.LOGIN = 'LOGIN'
+exports.REGISTER = 'REGISTER'
+exports.LOGOUT = 'LOGOUT'
+exports.MESSAGE = 'MESSAGE'
