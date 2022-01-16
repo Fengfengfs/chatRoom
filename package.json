@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon --inspect=9229 server/socket.js & nodemon server/app.js",
-    "dev":"node client/scripts/start.js"
+    "server": "nodemon --inspect=9229 server/socket.js & nodemon server/app.js"
   },
   "keywords": [],
   "author": "",

@@ -8,8 +8,11 @@
 
 npm install
 npm run server
-npm run dev
+cd ./client
+npm run start
 会启动一个 c 端界面服务和 1 个 socket 服务和 1 个 node 服务
+
+在浏览器的不同 tab 页进入页面后就可以进行互相对话了
 
 ## changlog
 
