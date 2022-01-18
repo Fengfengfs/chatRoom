@@ -4,7 +4,7 @@ const { Server } = require('socket.io')
 const httpServer = http.createServer()
 const ioServer = new Server(httpServer)
 const SOCKETPORT = process.env.SOCKETPORT || 7002
-const { CONNECT, CREATEROOM, LOGIN, MESSAGE, RECEIVEUSERLIST, LOGOUT } = require('./config/ioSocket')
+const { CONNECT, CREATEROOM, LOGIN, MESSAGE, RECEIVEUSERLIST, LOGOUT, VEDIO_OFFER, VEDIO_ANSWER, VEDIO_CANDIDATE } = require('./config/ioSocket')
 const resopnse = require('./utils/res')
 // 创建连接 
 const roomsMap = new Map()
@@ -39,7 +39,7 @@ ioServer.on(CONNECT, function (socket) {
     debugger
     let { fromRoom, msg, toRoom, username } = data
     const currentRoom = roomsMap.get(toRoom)
-    const roomId = currentRoom.id || OnlyRoom
+    const roomId = currentRoom?.id || OnlyRoom
     if (currentRoom.role == 'commonRoom') {
       fromRoom = toRoom
     }
@@ -73,6 +73,36 @@ ioServer.on(CONNECT, function (socket) {
       }
     });
 
+  })
+
+  socket.on(VEDIO_OFFER, (msg) => {
+    const data = JSON.parse(msg)
+    const { target } = data
+    debugger
+    const roomId = roomsMap.get(target)?.id
+    if (roomId) {
+      socket.to(roomId).emit(VEDIO_OFFER, msg)
+    }
+  })
+  socket.on(VEDIO_ANSWER, (msg) => {
+    debugger
+    const data = JSON.parse(msg)
+    const { target } = data
+    debugger
+    const roomId = roomsMap.get(target)?.id
+    if (roomId) {
+      socket.to(roomId).emit(VEDIO_ANSWER, msg)
+    }
+  })
+  socket.on(VEDIO_CANDIDATE, (msg) => {
+    debugger
+    const data = JSON.parse(msg)
+    const { target, candidate } = data
+    console.log(target)
+    const roomId = roomsMap.get(target)?.id
+    if (roomId) {
+      socket.to(roomId).emit(VEDIO_CANDIDATE, msg)
+    }
   })
 })
 
