@@ -1,8 +1,22 @@
 const express = require('express')
 const http = require('http')
+const https = require('https')
+const fs = require('fs')
+const path = require('path')
+const app = express()
 const { Server } = require('socket.io')
-const httpServer = http.createServer()
+// https-----------------------------------------
+// const options = {
+//   cert: fs.readFileSync(path.join(__dirname, "./config/key/cacert.pem")),
+//   key: fs.readFileSync(path.join(__dirname, "./config/key/privkey.pem")),
+// };
+// const httpsServer = https.createServer(options, app)
+// -----------------------------------------
+
+
+const httpServer = http.createServer(app)
 const ioServer = new Server(httpServer)
+
 const SOCKETPORT = process.env.SOCKETPORT || 7002
 const { CONNECT, CREATEROOM, LOGIN, MESSAGE, VEDIO_CLOSE, RECEIVEUSERLIST, LOGOUT, VEDIO_OFFER, VEDIO_ANSWER, VEDIO_CANDIDATE } = require('./config/ioSocket')
 const resopnse = require('./utils/res')
@@ -12,10 +26,8 @@ const commonRoomsMap = new Map()
 const OnlyRoom = 'OnlyRoom'
 const getAllUsers = (name, socket) => {
   roomsMap.has(name) || roomsMap.set(name, { name, id: socket.id, rooms: [], socket: socket, role: 'user' })
-
   const allusers = [...roomsMap.values()].filter(user => user.role == 'user').map(ele => ele.name)
   const allrooms = roomsMap.get(name).rooms
-
   return [allusers, allrooms]
 }
 ioServer.on(CONNECT, function (socket) {
