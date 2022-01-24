@@ -1,9 +1,9 @@
 const express = require('express')
 const Router = express.Router()
-const room_Router = require('./room')
+const message_Router = require('./message')
 const user_Router = require('./user')
 
-Router.use('/room', room_Router)
+Router.use('/message', message_Router)
 Router.use('/user', user_Router)
 
 module.exports = Router

@@ -1,4 +1,4 @@
-const success = (data) => {
+const success = (data = null) => {
   return {
     code: 'success',
     data: data,
@@ -6,10 +6,11 @@ const success = (data) => {
   }
 }
 
-const error = (error) => {
+const error = (error = null) => {
   return {
     code: 'error',
-    msg: error
+    data: error,
+    msg: '失败'
   }
 }
 

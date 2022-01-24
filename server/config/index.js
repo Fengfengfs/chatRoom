@@ -1,0 +1,1 @@
+const JWTSECRET = 'this is a jwt_secret huahua'
